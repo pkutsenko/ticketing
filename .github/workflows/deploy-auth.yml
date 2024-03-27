@@ -1,0 +1,19 @@
+name: deploy-auth
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'auth/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker build -t pavlokutsenko/auth -f auth/Dockerfile
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_TOKEN
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      - run: docker push pavlokutsenko/auth
