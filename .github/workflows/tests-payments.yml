@@ -1,4 +1,4 @@
-name: tests
+name: tests-payments
 
 on:
   pull_request
@@ -8,4 +8,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: cd packages/common && npm install
-      - run: cd auth && npm install && npm run test:ci
+      - run: cd payments && npm install && npm run test:ci

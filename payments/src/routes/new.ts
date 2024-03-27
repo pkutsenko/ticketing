@@ -1,9 +1,6 @@
 import express, {Request, Response} from "express";
 import { body } from 'express-validator'
 import {BadRequestError, NotAuthorizedError, NotFoundError, OrderStatus, requireAuth, validateRequest} from 'common'
-import {Ticket} from "../models/ticket";
-import {TicketCreatedPublisher} from "../events/publishers/ticket-created-publisher";
-import {natsWrapper} from "../nats-wrapper";
 import {Order} from "../models/order";
 import {stripe} from "../stripe";
 import {Payment} from "../models/payment";
