@@ -2,7 +2,6 @@ import {Listener, OrderCreatedEvent, OrderStatus, Subjects} from "common";
 import {Ticket} from "../../models/ticket";
 import {Message} from "node-nats-streaming";
 import { queueGroupName } from "./queue-group-name";
-import {TicketUpdatedPublisher} from "../publishers/ticket-updated-publisher";
 import {Order} from "../../models/order";
 
 
