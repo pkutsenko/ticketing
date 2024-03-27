@@ -1,0 +1,67 @@
+apiVersion: skaffold/v4beta3
+kind: Config
+manifests:
+  rawYaml:
+    - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: pavlokutsenko/auth
+      context: .
+      docker:
+        dockerfile: auth/Dockerfile
+      sync:
+        manual:
+          - src: 'auth/src/**/*.ts'
+            dest: .
+          - src: 'packages/src/**/*.ts'
+            dest: .
+    - image: pavlokutsenko/tickets
+      context: .
+      docker:
+        dockerfile: tickets/Dockerfile
+      sync:
+        manual:
+          - src: 'tickets/src/**/*.ts'
+            dest: .
+          - src: 'packages/src/**/*.ts'
+            dest: .
+    - image: pavlokutsenko/expiration
+      context: .
+      docker:
+        dockerfile: expiration/Dockerfile
+      sync:
+        manual:
+          - src: 'expiration/src/**/*.ts'
+            dest: .
+          - src: 'packages/src/**/*.ts'
+            dest: .
+    - image: pavlokutsenko/payments
+      context: .
+      docker:
+        dockerfile: payments/Dockerfile
+      sync:
+        manual:
+          - src: 'payments/src/**/*.ts'
+            dest: .
+          - src: 'packages/src/**/*.ts'
+            dest: .
+    - image: pavlokutsenko/orders
+      context: .
+      docker:
+        dockerfile: orders/Dockerfile
+      sync:
+        manual:
+          - src: 'orders/src/**/*.ts'
+            dest: .
+          - src: 'packages/src/**/*.ts'
+            dest: .
+    - image: pavlokutsenko/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'app/**/*.tsx'
+            dest: .

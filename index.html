@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+  function transpose(matrix) {
+    const m = matrix.length;
+    const k = matrix[0].length;
+    for (let i = 0; i < Math.max(m, k); i++) {
+      for (let j = 0; j < i; j++) {
+        const buff = matrix[j][i];
+        if (matrix[i] && matrix[i][j] !== undefined) {
+          matrix[j][i] = matrix[i][j];
+        }
+
+        matrix[i] = matrix[i] || [];
+        matrix[i][j] = buff;
+      }
+    }
+    for (let i = 0; i < k; i++) {
+      matrix[i].length = m;
+    }
+    matrix.length = k;
+    return matrix;
+  };
+
+  const matrix = [[5],[8]]
+  //console.log(transpose(matrix))
+</script>
+Required MongoMemoryServer Updates
+In the upcoming lecture, we will be setting up our test environment with MongoMemoryServer. If you are using the latest versions of this library a few changes will be required:
+
+In auth/src/test/setup.ts, change these lines:
+
+mongo = new MongoMemoryServer();
+const mongoUri = await mongo.getUri();
+to this:
+
+mongo = await MongoMemoryServer.create();
+const mongoUri = mongo.getUri();
+
+
+Remove the useNewUrlParser and useUnifiedTopology parameters from the connect method. Change this:
+
+await mongoose.connect(mongoUri, {
+useNewUrlParser: true,
+useUnifiedTopology: true,
+});
+to this:
+
+await mongoose.connect(mongoUri, {});
+
+
+Then, find the afterAll hook and add a conditional check:
+
+afterAll(async () => {
+if (mongo) {
+await mongo.stop();
+}
+await mongoose.connection.close();
+});
+
+
+For reference:
+
+https://nodkz.github.io/mongodb-memory-server/docs/guides/migration/migrate7/https://nodkz.github.io/mongodb-memory-server/docs/guides/migration/migrate7/
+
+
+declare global {
+var signin: () => Promise<string[]>;
+}
+
+module.exports = {
+webpack: (config) => {
+config.watchOptions.poll = 300;
+return config;
+},
+<script>
+  var longestPalindrome = function(s) {
+    const sLength = s.length;
+    if(sLength === 0 || sLength === 1) {
+      return s;
+    }
+    let longestPalindromeStart = 0, longestPalindromeEnd = 0;
+    let pLength = 0;
+    let start = 0, end = 1;
+
+    function checkPalindrome(start, end) {
+      while (start >= 0 && end < sLength) {
+        const updatedPLength = end - start + 1;
+        if (s[start] === s[end]) {
+          if (updatedPLength > pLength) {
+            pLength = updatedPLength;
+            longestPalindromeStart = start;
+            longestPalindromeEnd = end;
+            console.log(pLength, longestPalindromeStart, longestPalindromeEnd)
+          }
+          start--;
+          end++;
+        } else {
+          break;
+        }
+      }
+    }
+
+    while (start < sLength - 1 && end < sLength) {
+      checkPalindrome(start, end);
+      if (end < sLength) {
+        checkPalindrome(start, end + 1);
+      }
+      start++;
+      end++;
+    }
+
+    return s.substring(longestPalindromeStart, longestPalindromeEnd + 1)
+  };
+  //console.log(longestPalindrome('babad'))
+  //console.log(longestPalindrome('cbbd'))
+
+  var reverse = function(x) {
+    const multiplicator = x < 0 ? -1 : 1;
+    x = Math.abs(x);
+
+    const initialX = x;
+    let level = 1;
+    let reversed = 0;
+
+    while (level <= initialX) {
+      level *= 10;
+      const particle = x % 10;
+      reversed = (reversed * 10 + particle) ;
+      x = (x - particle)/10;
+    }
+
+    reversed *= multiplicator;
+
+    return reversed < -2147483648 || reversed > 2147483649 ? 0 : reversed;
+  };
+
+  console.log(reverse(12345))
+</script>
+
+</body>
+</html>
